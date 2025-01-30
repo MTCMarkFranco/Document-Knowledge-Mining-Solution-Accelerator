@@ -86,7 +86,7 @@ function PromptForParameters {
     startBanner
 
     $availableRegions = @(
-        'EastUS', 'EastUS2', 'WestUS', 'WestUS2', 'WestUS3', 'CentralUS', 'NorthCentralUS', 'SouthCentralUS', 
+        'EastUS', 'EastUS2', 'SwedenCentral','WestUS', 'WestUS2', 'WestUS3', 'CentralUS', 'NorthCentralUS', 'SouthCentralUS', 
         'WestEurope', 'NorthEurope', 'SoutheastAsia', 'EastAsia', 'JapanEast', 'JapanWest', 
         'AustraliaEast', 'AustraliaSoutheast', 'CentralIndia', 'SouthIndia', 'CanadaCentral', 
         'CanadaEast', 'UKSouth', 'UKWest', 'FranceCentral', 'FranceSouth', 'KoreaCentral', 
@@ -307,6 +307,8 @@ class DeploymentResult {
     [string]$AzGPT4oModelId
     [string]$AzGPTEmbeddingModelName
     [string]$AzGPTEmbeddingModelId
+    [string]$AzGPT4oModelChatCompletionsName
+     [string]$AzGPT4oModelChatCompletionsId
     [string]$AzOpenAiServiceEndpoint
     [string]$AzOpenAiServiceKey
     [string]$AzCosmosDBName
@@ -344,6 +346,9 @@ class DeploymentResult {
         # Model - Embedding
         $this.AzGPTEmbeddingModelName = ""
         $this.AzGPTEmbeddingModelId = ""
+        # Model - GPT4o chat completions
+        $this.AzGPT4oModelChatCompletionsName = ""
+        $this.AzGPT4oModelChatCompletionsId = ""
         # Cosmos DB
         $this.AzCosmosDBName = ""
         $this.AzCosmosDBConnectionString = ""
@@ -382,6 +387,8 @@ class DeploymentResult {
         # Azure Open AI Service Models
         $this.AzGPT4oModelName = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4o_model_name.value
         $this.AzGPT4oModelId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4o_model_id.value
+        $this.AzGPT4oModelChatCompletionsName = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4o_chat_completions_model_name.value
+        $this.AzGPT4oModelChatCompletionsId = $jsonString.properties.outputs.gs_openaiservicemodels_gpt4o_chat_completions_model_id.value
         $this.AzGPTEmbeddingModelName = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_name.value
         $this.AzGPTEmbeddingModelId = $jsonString.properties.outputs.gs_openaiservicemodels_text_embedding_model_id.value
         # Azure App Configuration
@@ -487,21 +494,19 @@ try {
     # Define the placeholders and their corresponding values for AI service configuration
     
     $aiServicePlaceholders = @{
-        '{gpt-4o-mini-endpoint}' = $deploymentResult.AzOpenAiServiceEndpoint
-        '{gpt-4o-mini-apikey}' = $deploymentResult.AzOpenAiServiceKey
         '{azureaisearch-apikey}' = $deploymentResult.AzSearchAdminKey
         '{documentintelligence-apikey}' = $deploymentResult.AzCognitiveServiceKey 
         '{cosmosmongo-connection-string}' = $deploymentResult.AzCosmosDBConnectionString 
         '{azureblobs-connection-string}' = $deploymentResult.StorageAccountConnectionString 
         '{azureblobs-account}' = $deploymentResult.StorageAccountName
         '{azureaisearch-endpoint}' = $deploymentResult.AzSearchServicEndpoint 
-        '{gpt-4o-mini-modelname}' = $deploymentResult.AzGPT4oModelId  
-        '{gpt-4o-endpoint}' =  $deploymentResult.AzOpenAiServiceEndpoint 
+        '{gpt-4o-endpoint}' =  $deploymentResult.AzOpenAiServiceEndpoint
+        '{gpt-4o-chat-completions-endpoint}' =  $deploymentResult.AzOpenAiServiceEndpoint 
         '{textembedding-endpoint}' = $deploymentResult.AzOpenAiServiceEndpoint
         '{azureopenaiembedding-endpoint}' = $deploymentResult.AzOpenAiServiceEndpoint
         '{azureopenaitext-endpoint}' = $deploymentResult.AzOpenAiServiceEndpoint
-        '{azureopenaitext-deployment}' = $deploymentResult.AzGPT4oModelId 
-        '{gpt-4o-key}' = $deploymentResult.AzOpenAiServiceKey
+        '{azureopenaitext-deployment}' = $deploymentResult.AzGPT4oModelChatCompletionsName 
+        '{gpt-4o-chat-completions-key}' = $deploymentResult.AzOpenAiServiceKey
         '{textembedding-key}' = $deploymentResult.AzOpenAiServiceKey
         '{azureopenaiembedding-apikey}' = $deploymentResult.AzOpenAiServiceKey
         '{azureopenaitext-apikey}' = $deploymentResult.AzOpenAiServiceKey
@@ -516,8 +521,10 @@ try {
         '{azureblobs-container}' = "smemory"
         '{azurequeues-account}' = $deploymentResult.StorageAccountName
         '{azurequeues-connection-string}' = $deploymentResult.StorageAccountConnectionString
-        '{gpt-4o-modelname}' = $deploymentResult.AzGPT4oModelName 
-        '{azureopenaiembedding-deployment}' = $deploymentResult.AzGPTEmbeddingModelName 
+        '{gpt-4o-modelname}' = $deploymentResult.AzGPT4oModelName
+        '{gpt-4o-key}' = $deploymentResult.AzOpenAiServiceKey
+        '{azureopenaiembedding-deployment}' = $deploymentResult.AzGPTEmbeddingModelName
+        '{gpt-4o-model-chat-completionsname}' = $deploymentResult.AzGPT4oModelChatCompletionsName  
         '{kernelmemory-endpoint}' = "http://kernelmemory-service" 
         }
 
@@ -937,7 +944,8 @@ try {
                     "2. Check GPT Model's TPM rate in your resource group - $($deploymentResult.ResourceGroupName) `n`r" +
                     "Please set each value high as much as you can set`n`r" +
                     "`t- Open AI Resource Name - $($deploymentResult.AzOpenAiServiceName) `n`r" +
-                    "`t- GPT4o Model - $($deploymentResult.AzGPT4oModelName) `n`r" +
+                    "`t- GPT4o Model for Summarization - $($deploymentResult.AzGPT4oModelName) `n`r" +
+                    "`t- GPT4o Model for Chat Completions - $($deploymentResult.AzGPT4oModelChatCompletionsName) `n`r" +
                     "`t- GPT Embedding Model - $($deploymentResult.AzGPTEmbeddingModelName) `n`r"
     Write-Host $messageString -ForegroundColor Yellow
     Write-Host "Don't forget to control the TPM rate for your GPT and Embedding Model in Azure Open AI Studio Deployments section." -ForegroundColor Red

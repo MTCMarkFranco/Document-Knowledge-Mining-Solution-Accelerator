@@ -29,9 +29,9 @@ namespace Microsoft.GS.DPSHost.ServiceConfiguration
                 {
                     var aiService = x.GetRequiredService<IOptions<AIServices>>().Value;
                     return Kernel.CreateBuilder()
-                                 .AddAzureOpenAIChatCompletion(deploymentName: builder.Configuration.GetSection("Application:AIServices:GPT-4o-mini")["ModelName"] ?? "",
-                                                              endpoint: builder.Configuration.GetSection("Application:AIServices:GPT-4o-mini")["Endpoint"] ?? "",
-                                                              apiKey: builder.Configuration.GetSection("Application:AIServices:GPT-4o-mini")["Key"] ?? "")
+                                 .AddAzureOpenAIChatCompletion(deploymentName: builder.Configuration.GetSection("Application:AIServices:GPT-4o")["ModelName"] ?? "",
+                                                              endpoint: builder.Configuration.GetSection("Application:AIServices:GPT-4o")["Endpoint"] ?? "",
+                                                              apiKey: builder.Configuration.GetSection("Application:AIServices:GPT-4o")["Key"] ?? "")
 
                                  .Build();
                 })

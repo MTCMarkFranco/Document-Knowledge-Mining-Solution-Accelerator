@@ -97,6 +97,7 @@ module gs_openaiservice 'bicep/azureopenaiservice.bicep' = {
 // Due to limited of Quota, not easy to control per each model deployment.
 // Set the minimum capacity of each model
 // Based on customer's Model capacity, it needs to be updated in Azure Portal.
+// MODELS: GPT-4o-mini, Text-Embedding-3-large for Document Processing
 module gs_openaiservicemodels_gpt4o 'bicep/azureopenaiservicemodel.bicep' = {
   scope: gs_resourcegroup
   name: 'gpt-4o-mini'
@@ -119,10 +120,10 @@ module gs_openaiservicemodels_gpt4o 'bicep/azureopenaiservicemodel.bicep' = {
 
 module gs_openaiservicemodels_text_embedding 'bicep/azureopenaiservicemodel.bicep' = {
   scope: gs_resourcegroup
-  name: 'text-embedding-large'
+  name: 'text-embedding-3-large'
   params: {
     parentResourceName: gs_openaiservice.outputs.openAIServiceName
-    name:'text-embedding-large'
+    name:'text-embedding-3-large'
     model: {
         name: 'text-embedding-3-large'
         version: '1'
@@ -134,6 +135,27 @@ module gs_openaiservicemodels_text_embedding 'bicep/azureopenaiservicemodel.bice
     dependsOn: [
       gs_openaiservicemodels_gpt4o
     ]  
+}
+
+// MODELS: GPT-4o for Chat Completions
+module gs_openaiservicemodels_gpt4o_chat_completions 'bicep/azureopenaiservicemodel.bicep' = {
+  scope: gs_resourcegroup
+  name: 'gpt-4o'
+  params: {
+    parentResourceName: gs_openaiservice.outputs.openAIServiceName
+    name:'gpt-4o'
+    model: {
+        name: 'gpt-4o'
+        version: '2024-08-06'
+        raiPolicyName: ''
+        capacity: 1
+        scaleType: 'Standard'
+      }
+    
+  }
+  dependsOn: [
+    gs_openaiservicemodels_gpt4o
+  ]
 }
 
 // Create Azure Cosmos DB Mongo
@@ -176,6 +198,9 @@ output gs_openaiservice_endpoint string = gs_openaiservice.outputs.openAIService
 
 output gs_openaiservicemodels_gpt4o_model_name string = gs_openaiservicemodels_gpt4o.outputs.deployedModelName
 output gs_openaiservicemodels_gpt4o_model_id string = gs_openaiservicemodels_gpt4o.outputs.deployedModelId
+
+output gs_openaiservicemodels_gpt4o_chat_completions_model_name string = gs_openaiservicemodels_gpt4o_chat_completions.outputs.deployedModelName
+output gs_openaiservicemodels_gpt4o_chat_completions_model_id string = gs_openaiservicemodels_gpt4o_chat_completions.outputs.deployedModelId
 
 output gs_openaiservicemodels_text_embedding_model_name string = gs_openaiservicemodels_text_embedding.outputs.deployedModelName
 output gs_openaiservicemodels_text_embedding_model_id string = gs_openaiservicemodels_text_embedding.outputs.deployedModelId

@@ -122,7 +122,7 @@ module gs_openaiservicemodels_text_embedding 'bicep/azureopenaiservicemodel.bice
   name: 'text-embedding-3-large'
   params: {
     parentResourceName: gs_openaiservice.outputs.openAIServiceName
-    name:'text-embedding-large'
+    name:'text-embedding-3-large'
     model: {
         name: 'text-embedding-3-large'
         version: '1'

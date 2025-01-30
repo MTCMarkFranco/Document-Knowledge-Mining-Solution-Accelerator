@@ -494,21 +494,19 @@ try {
     # Define the placeholders and their corresponding values for AI service configuration
     
     $aiServicePlaceholders = @{
-        '{gpt-4o-mini-endpoint}' = $deploymentResult.AzOpenAiServiceEndpoint
-        '{gpt-4o-mini-apikey}' = $deploymentResult.AzOpenAiServiceKey
         '{azureaisearch-apikey}' = $deploymentResult.AzSearchAdminKey
         '{documentintelligence-apikey}' = $deploymentResult.AzCognitiveServiceKey 
         '{cosmosmongo-connection-string}' = $deploymentResult.AzCosmosDBConnectionString 
         '{azureblobs-connection-string}' = $deploymentResult.StorageAccountConnectionString 
         '{azureblobs-account}' = $deploymentResult.StorageAccountName
         '{azureaisearch-endpoint}' = $deploymentResult.AzSearchServicEndpoint 
-        '{gpt-4o-mini-modelname}' = $deploymentResult.AzGPT4oModelId  
-        '{gpt-4o-endpoint}' =  $deploymentResult.AzOpenAiServiceEndpoint 
+        '{gpt-4o-endpoint}' =  $deploymentResult.AzOpenAiServiceEndpoint
+        '{gpt-4o-chat-completions-endpoint}' =  $deploymentResult.AzOpenAiServiceEndpoint 
         '{textembedding-endpoint}' = $deploymentResult.AzOpenAiServiceEndpoint
         '{azureopenaiembedding-endpoint}' = $deploymentResult.AzOpenAiServiceEndpoint
         '{azureopenaitext-endpoint}' = $deploymentResult.AzOpenAiServiceEndpoint
-        '{azureopenaitext-deployment}' = $deploymentResult.AzGPT4oModelId 
-        '{gpt-4o-key}' = $deploymentResult.AzOpenAiServiceKey
+        '{azureopenaitext-deployment}' = $deploymentResult.AzGPT4oModelChatCompletionsName 
+        '{gpt-4o-chat-completions-key}' = $deploymentResult.AzOpenAiServiceKey
         '{textembedding-key}' = $deploymentResult.AzOpenAiServiceKey
         '{azureopenaiembedding-apikey}' = $deploymentResult.AzOpenAiServiceKey
         '{azureopenaitext-apikey}' = $deploymentResult.AzOpenAiServiceKey

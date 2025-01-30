@@ -70,6 +70,24 @@ The automated deployment process is very straightforward and simplified via a si
 ### Execute Deployment Script:
 Open PowerShell, change directory where you code cloned, then run the deploy script:  
 
+Before running the resource deployment script, set up environment variables to use a Service Principal instead of the default interactive login for credential verification. If you set the following variables, the script will use the identity of the Service Principal:
+
+```
+$env:CI = "true"
+$env:AZURE_CLIENT_ID = "----****"
+$env:AZURE_CLIENT_SECRET = "****************"
+$env:AZURE_TENANT_ID = "********----********"
+```
+
+Verify the environment variables are set:
+```
+Write-Host "Authentication (AZURE_CLIENT_ID): $env:AZURE_CLIENT_ID"
+Write-Host "Authentication (AZURE_CLIENT_SECRET): $env:AZURE_CLIENT_SECRET"
+Write-Host "Authentication (AZURE_TENANT_ID): $env:AZURE_TENANT_ID"
+```
+
+Then, run the deploy script:
+
 ```
 cd .\Deployment\  
 ```  
@@ -92,7 +110,7 @@ You will be prompted for the following parameters with this Screen :
     *Please [check Azure resource availability and note hardcoded regions](#regional-availability). The following locations are currently supported: 
     
     ```
-    'EastUS', 'EastUS2', 'WestUS', 'WestUS2', 'WestUS3', 'CentralUS', 'NorthCentralUS', 'SouthCentralUS','WestEurope', 'NorthEurope', 'SoutheastAsia', 'EastAsia', 'JapanEast', 'JapanWest', 'AustraliaEast', 'AustraliaSoutheast', 'CentralIndia', 'SouthIndia', 'CanadaCentral','CanadaEast', 'UKSouth', 'UKWest', 'FranceCentral', 'FranceSouth', 'KoreaCentral','KoreaSouth', 'GermanyWestCentral', 'GermanyNorth', 'NorwayWest', 'NorwayEast', 'SwitzerlandNorth', 'SwitzerlandWest', 'UAENorth', 'UAECentral', 'SouthAfricaNorth','SouthAfricaWest', 'BrazilSouth','BrazilSoutheast', 'QatarCentral', 'ChinaNorth', 'ChinaEast', 'ChinaNorth2', 'ChinaEast2'
+    'EastUS', 'EastUS2', 'SwedenCentral', 'WestUS', 'WestUS2', 'WestUS3', 'CentralUS', 'NorthCentralUS', 'SouthCentralUS','WestEurope', 'NorthEurope', 'SoutheastAsia', 'EastAsia', 'JapanEast', 'JapanWest', 'AustraliaEast', 'AustraliaSoutheast', 'CentralIndia', 'SouthIndia', 'CanadaCentral','CanadaEast', 'UKSouth', 'UKWest', 'FranceCentral', 'FranceSouth', 'KoreaCentral','KoreaSouth', 'GermanyWestCentral', 'GermanyNorth', 'NorwayWest', 'NorwayEast', 'SwitzerlandNorth', 'SwitzerlandWest', 'UAENorth', 'UAECentral', 'SouthAfricaNorth','SouthAfricaWest', 'BrazilSouth','BrazilSoutheast', 'QatarCentral', 'ChinaNorth', 'ChinaEast', 'ChinaNorth2', 'ChinaEast2'
     ```
 1. **ModelLocation** - Azure data center where GPT model will be deployed.  
     The following locations are currently available :

@@ -521,7 +521,8 @@ try {
         '{azureblobs-container}' = "smemory"
         '{azurequeues-account}' = $deploymentResult.StorageAccountName
         '{azurequeues-connection-string}' = $deploymentResult.StorageAccountConnectionString
-        '{gpt-4o-modelname}' = $deploymentResult.AzGPT4oModelName 
+        '{gpt-4o-modelname}' = $deploymentResult.AzGPT4oModelName
+        '{gpt-4o-key}' = $deploymentResult.AzOpenAiServiceKey
         '{azureopenaiembedding-deployment}' = $deploymentResult.AzGPTEmbeddingModelName
         '{gpt-4o-model-chat-completionsname}' = $deploymentResult.AzGPT4oModelChatCompletionsName  
         '{kernelmemory-endpoint}' = "http://kernelmemory-service" 

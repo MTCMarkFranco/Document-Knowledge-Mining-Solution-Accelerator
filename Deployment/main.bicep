@@ -114,6 +114,7 @@ module gs_openaiservicemodels_gpt4o 'bicep/azureopenaiservicemodel.bicep' = {
     
   }
   dependsOn: [
+    gs_openaiservice
   ]
 }
 
@@ -132,6 +133,7 @@ module gs_openaiservicemodels_text_embedding 'bicep/azureopenaiservicemodel.bice
       }
     }
     dependsOn: [
+      gs_openaiservicemodels_gpt4o
     ]  
 }
 
@@ -152,6 +154,7 @@ module gs_openaiservicemodels_gpt4o_chat_completions 'bicep/azureopenaiservicemo
     
   }
   dependsOn: [
+    gs_openaiservicemodels_gpt4o
   ]
 }
 
